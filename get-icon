@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+const https = require('https');
+const options = {
+	hostname: 'storage.googleapis.com',
+	port: 443,
+	path: '/material-icons/external-assets/v4/icons/svg/ic_accessibility_black_24px.svg',
+	method: 'GET'
+};
+
+const req = https.request(options, (res) => {
+	  console.log('statusCode:', res.statusCode);
+	  console.log('headers:', res.headers);
+
+	  res.on('data', (d) => {
+		      process.stdout.write(d);
+		    });
+});
+
+req.on('error', (e) => {
+	  console.error(e);
+});
+req.end();
