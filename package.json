@@ -1,0 +1,12 @@
+{
+  "name": "react-material-icons",
+  "version": "1.0.0",
+  "description": "ClI to get material icons from google storage apis and put the paths in an accessible JSON object file.",
+  "main": "index.js",
+  "repository": "git@github.com:hattmarris/react-material-icons.git",
+  "author": "<mattharris89@gmail.com>",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "xml2js": "^0.4.17"
+  }
+}
