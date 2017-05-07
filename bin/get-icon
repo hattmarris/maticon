@@ -8,15 +8,20 @@ const options = {
 };
 
 const req = https.request(options, (res) => {
-	  console.log('statusCode:', res.statusCode);
-	  console.log('headers:', res.headers);
+	 // console.log('statusCode:', res.statusCode);
+	 // console.log('headers:', res.headers);
 
-	  res.on('data', (d) => {
-		      process.stdout.write(d);
-		    });
+	res.on('data', (d) => {
+		parseXml(d);
+	});
 });
 
 req.on('error', (e) => {
 	  console.error(e);
 });
-req.end();
+req.end()
+
+const parseXml = (d) => {
+	console.log(typeof d);
+	process.stdout.write(d);
+};
