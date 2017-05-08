@@ -1,6 +1,5 @@
 const https = require('https');
 const xml2js = require('xml2js');
-const StringDecoder = require('string_decoder').StringDecoder;
 
 class GetIcon {
 	constructor(iconName) {
@@ -11,19 +10,23 @@ class GetIcon {
 			method: 'GET'
 		};
 		this.icon = {};
-		this.decoder = new StringDecoder('utf8');
 	}
 
 	request() {
-		const req = https.request(this.options, (res) => {
+		const req = https.get(this.options, (res) => {
 			// console.log('statusCode:', res.statusCode);
 	 		// console.log('headers:', res.headers);
-
+			let xmlString = "";
+			res.setEncoding('utf8');
 			res.on('data', (d) => {
-				const xmlString = this.decoder.write(d);
+				xmlString += d;
+			});
+			res.on('end', () => {
 				xml2js.parseString(xmlString, (err, result) => {
 					if(err) throw new Error(err);
 					this.icon = result;
+					const path = this.parsePath(result);
+					console.log(path);
 				});
 			});
 		});
@@ -34,6 +37,17 @@ class GetIcon {
 
 		req.end()
 	}
+	
+	parsePath(icon) {
+		const paths = icon.svg.path;
+		for(let i=0; i<paths.length; i++) {
+			let path = paths[i];
+			if(path.$.d != 'M0 0h24v24H0z' && !path.$.hasOwnProperty('fill')) {
+				return path.$.d; 
+			}
+		}
+	}
+
 }
 
 module.exports = GetIcon;
