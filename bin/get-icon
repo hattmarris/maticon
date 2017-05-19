@@ -1,6 +1,0 @@
-#!/usr/bin/env node
-// Need to get CLI input from process.args and pass to constructor, then can test bin process from command line
-
-// const GetIcon = require('../src/get-icon.js');
-
-// const getter = new GetIcon('');
