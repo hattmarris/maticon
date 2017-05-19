@@ -1,27 +1,6 @@
 #!/usr/bin/env node
-const https = require('https');
-const options = {
-	hostname: 'storage.googleapis.com',
-	port: 443,
-	path: '/material-icons/external-assets/v4/icons/svg/ic_accessibility_black_24px.svg',
-	method: 'GET'
-};
+// Need to get CLI input from process.args and pass to constructor, then can test bin process from command line
 
-const req = https.request(options, (res) => {
-	 // console.log('statusCode:', res.statusCode);
-	 // console.log('headers:', res.headers);
+// const GetIcon = require('../src/get-icon.js');
 
-	res.on('data', (d) => {
-		parseXml(d);
-	});
-});
-
-req.on('error', (e) => {
-	  console.error(e);
-});
-req.end()
-
-const parseXml = (d) => {
-	console.log(typeof d);
-	process.stdout.write(d);
-};
+// const getter = new GetIcon('');
