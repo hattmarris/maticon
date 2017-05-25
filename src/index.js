@@ -1,6 +1,6 @@
-global.GetIcon = {};
+global.MatIcon = {};
 global.reLoadModule = () => {
-	delete require.cache[require.resolve('./get-icon.js')];
-	GetIcon = require('./get-icon.js');
+	delete require.cache[require.resolve('./maticon.js')];
+	MatIcon = require('./maticon.js');
 }
 reLoadModule();

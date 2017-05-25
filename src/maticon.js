@@ -3,7 +3,7 @@ const readline = require("readline");
 const xml2js = require("xml2js");
 iconsJson = require("./Icons.json");
 
-class GetIcon {
+class MatIcon {
   constructor(iconName) {
     this.iconName = this.underScore(iconName);
     this.options = {
@@ -56,8 +56,9 @@ class GetIcon {
     if (iconsJson.hasOwnProperty(upCased)) {
       this.prompt("This Icon is already stored, do you want to replace it? (y/n)");
     }
+    // this.storeIcon(upCased)
   }
-
+	 
   prompt(text) {
     const rl = readline.createInterface({
       input: process.stdin,
@@ -95,4 +96,4 @@ class GetIcon {
   }
 }
 
-module.exports = GetIcon;
+module.exports = MatIcon;
