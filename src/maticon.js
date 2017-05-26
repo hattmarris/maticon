@@ -1,6 +1,7 @@
 const https = require("https");
 const readline = require("readline");
 const xml2js = require("xml2js");
+const alph = require("alphabetize");
 iconsJson = require("./Icons.json");
 
 class MatIcon {
@@ -14,11 +15,12 @@ class MatIcon {
     };
     this.icon = {};
     this.parsedPath = "";
+    this.ICONS = iconsJson;
   }
 
   underScore(name = "") {
     if (!name) throw Error("Cant underscore delimit empty string...");
-    return name.replace(" ", "_");
+    return name.replace(/\s/g, "_");
   }
 
   request() {
@@ -53,12 +55,17 @@ class MatIcon {
   savePath(path = this.parsedPath) {
     if (!path) throw Error("No path to save passed and no path in memory.");
     var upCased = this.iconName.toUpperCase();
-    if (iconsJson.hasOwnProperty(upCased)) {
+    if (this.ICONS.hasOwnProperty(upCased)) {
       this.prompt("This Icon is already stored, do you want to replace it? (y/n)");
     }
-    // this.storeIcon(upCased)
+    this.insertPath(upCased)
   }
-	 
+
+  insertPath(upCased) {
+ 	this.ICONS[upCased] = this.parsedPath;
+	return alph.order(this.ICONS);
+  }
+
   prompt(text) {
     const rl = readline.createInterface({
       input: process.stdin,
