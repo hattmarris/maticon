@@ -1,21 +1,25 @@
 const https = require("https");
+const fs = require("fs");
 const readline = require("readline");
 const xml2js = require("xml2js");
 const alph = require("alphabetize");
-iconsJson = require("./Icons.json");
+
+CONFIG = require("../config/config.json");
 
 class MatIcon {
   constructor(iconName) {
+		const { HOSTNAME, PORT, PATH, COLOR, SIZE, FILE } = CONFIG;
+
     this.iconName = this.underScore(iconName);
     this.options = {
-      hostname: "storage.googleapis.com",
-      port: 443,
-      path: `/material-icons/external-assets/v4/icons/svg/ic_${this.iconName}_black_24px.svg`,
+      hostname: HOSTNAME,
+      port: PORT,
+      path: `${PATH}_${this.iconName}_${COLOR}_${SIZE}px.svg`,
       method: "GET"
     };
     this.icon = {};
     this.parsedPath = "";
-    this.ICONS = iconsJson;
+    this.ICONS = require(FILE);
   }
 
   underScore(name = "") {
@@ -58,13 +62,18 @@ class MatIcon {
     if (this.ICONS.hasOwnProperty(upCased)) {
       this.prompt("This Icon is already stored, do you want to replace it? (y/n)");
     }
-    this.insertPath(upCased)
+    this.insertPath(upCased);
+		this.saveToFile();
   }
 
   insertPath(upCased) {
- 	this.ICONS[upCased] = this.parsedPath;
-	return alph.order(this.ICONS);
+ 		this.ICONS[upCased] = this.parsedPath;
+		this.ICONS = alph.order(this.ICONS);
   }
+
+	saveToFile() {
+		fs.writeFileSync(CONFIG.FILE, JSON.stringify(this.ICONS), "utf-8");
+	}
 
   prompt(text) {
     const rl = readline.createInterface({
