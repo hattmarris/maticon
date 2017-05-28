@@ -3,6 +3,6 @@
 	"PORT": "443",
 	"PATH": "/material-icons/external-assets/v4/icons/svg/ic",
 	"COLOR": "black",
-	"SIZE": "24px",
+	"SIZE": "24",
 	"FILE": "./Icons.json"
 }
