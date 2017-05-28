@@ -86,6 +86,8 @@ class MatIcon {
         case "y":
           console.log("sweet, lets do it.");
           rl.close();
+					this.insertPath(this.iconName.toUpperCase());
+					this.saveToFile();
           break;
         case "n":
           console.log("okay, cool. exiting.");
