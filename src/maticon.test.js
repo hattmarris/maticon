@@ -24,9 +24,8 @@ describe('Maticon module unit tests', () => {
 		const fs = require('fs');
 		const maticon = new Maticon('book')
 		
-		maticon.ICONS = {"I_AM_A": "new icons object"}		
-		CONFIG.FILE = './Icons.test.json';
-		
+		maticon.ICONS = {"I_AM_A": "new icons object"}						
+    maticon.FILEPATH = "./Icons.test.json";	
 		maticon.saveToFile();
 			
 		expect(require('../Icons.test.json')).toEqual(maticon.ICONS);
