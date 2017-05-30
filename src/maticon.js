@@ -1,3 +1,4 @@
+const PATH = require("path");
 const https = require("https");
 const fs = require("fs");
 const readline = require("readline");
@@ -8,8 +9,8 @@ CONFIG = require("../config/config.json");
 
 class MatIcon {
   constructor(iconName) {
-		const { HOSTNAME, PORT, PATH, COLOR, SIZE, FILE } = CONFIG;
-
+		const { HOSTNAME, PORT, PATH, COLOR, SIZE, FILEPATH } = CONFIG;
+				
     this.iconName = this.underScore(iconName);
     this.options = {
       hostname: HOSTNAME,
@@ -19,8 +20,16 @@ class MatIcon {
     };
     this.icon = {};
     this.parsedPath = "";
-    this.ICONS = require(FILE);
-  }
+    this.FILEPATH = this.getFilePath(FILEPATH); 
+    this.ICONS = require(this.FILEPATH);
+  }				
+
+  getFilePath(p = "") {
+				if(!p) {
+								return `${PATH.resolve(__dirname)}/assets/Icons.json`.replace(/\/src/, "");
+				}
+				return p;
+	}
 
   underScore(name = "") {
     if (!name) throw Error("Cant underscore delimit empty string...");
@@ -72,7 +81,7 @@ class MatIcon {
   }
 
 	saveToFile() {
-		fs.writeFileSync(CONFIG.FILE, JSON.stringify(this.ICONS), "utf-8");
+		fs.writeFileSync(this.FILEPATH, JSON.stringify(this.ICONS), "utf-8");
 	}
 
   prompt(text) {
