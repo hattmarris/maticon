@@ -7,6 +7,7 @@
   "author": "<mattharris89@gmail.com>",
   "license": "GPL-3.0",
   "dependencies": {
+    "commander": "^2.9.0",
     "xml2js": "^0.4.17"
   },
   "devDependencies": {
