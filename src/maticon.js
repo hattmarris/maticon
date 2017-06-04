@@ -4,13 +4,14 @@ const fs = require("fs");
 const readline = require("readline");
 const xml2js = require("xml2js");
 const alph = require("alphabetize");
-
+const log = require("loglevel");
+log.setLevel("info");
 CONFIG = require("../config/config.json");
 
 class MatIcon {
   constructor(iconName) {
-		const { HOSTNAME, PORT, PATH, COLOR, SIZE, FILEPATH } = CONFIG;
-				
+    const { HOSTNAME, PORT, PATH, COLOR, SIZE, FILEPATH } = CONFIG;
+
     this.iconName = this.underScore(iconName);
     this.options = {
       hostname: HOSTNAME,
@@ -20,16 +21,16 @@ class MatIcon {
     };
     this.icon = {};
     this.parsedPath = "";
-    this.FILEPATH = this.getFilePath(FILEPATH); 
+    this.FILEPATH = this.getFilePath(FILEPATH);
     this.ICONS = require(this.FILEPATH);
-  }				
+  }
 
   getFilePath(p = "") {
-				if(!p) {
-								return `${PATH.resolve(__dirname)}/assets/Icons.json`.replace(/\/src/, "");
-				}
-				return p;
-	}
+    if (!p) {
+      return `${PATH.resolve(__dirname)}/assets/Icons.json`.replace(/\/src/, "");
+    }
+    return p;
+  }
 
   underScore(name = "") {
     if (!name) throw Error("Cant underscore delimit empty string...");
@@ -37,9 +38,11 @@ class MatIcon {
   }
 
   request() {
+    log.info(`GET icon "${this.iconName}" from ${this.options.hostname}...`);
     const req = https.get(this.options, res => {
       // console.log('statusCode:', res.statusCode);
       // console.log('headers:', res.headers);
+      log.info(`Got response with code ${res.statusCode}`);
       let xmlString = "";
       res.setEncoding("utf8");
       res.on("data", d => {
@@ -50,6 +53,7 @@ class MatIcon {
           if (err) throw new Error(err);
           this.icon = result;
           this.parsedPath = this.parsePath(result);
+          log.info(`Parsed path as "${this.parsedPath}". Saving...`);
           this.savePath(this.parsedPath);
         });
       });
@@ -72,17 +76,17 @@ class MatIcon {
       this.prompt("This Icon is already stored, do you want to replace it? (y/n)");
     }
     this.insertPath(upCased);
-		this.saveToFile();
+    this.saveToFile();
   }
 
   insertPath(upCased) {
- 		this.ICONS[upCased] = this.parsedPath;
-		this.ICONS = alph.order(this.ICONS);
+    this.ICONS[upCased] = this.parsedPath;
+    this.ICONS = alph.order(this.ICONS);
   }
 
-	saveToFile() {
-		fs.writeFileSync(this.FILEPATH, JSON.stringify(this.ICONS), "utf-8");
-	}
+  saveToFile() {
+    fs.writeFileSync(this.FILEPATH, JSON.stringify(this.ICONS), "utf-8");
+  }
 
   prompt(text) {
     const rl = readline.createInterface({
@@ -95,8 +99,8 @@ class MatIcon {
         case "y":
           console.log("sweet, lets do it.");
           rl.close();
-					this.insertPath(this.iconName.toUpperCase());
-					this.saveToFile();
+          this.insertPath(this.iconName.toUpperCase());
+          this.saveToFile();
           break;
         case "n":
           console.log("okay, cool. exiting.");
