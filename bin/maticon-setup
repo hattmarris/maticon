@@ -1,0 +1,12 @@
+#!/usr/bin/env node
+const readline = require("readline");
+console.log("setup...");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+rl.question("Where will you be storing the icons JSON file? (enter an absolute path): ", answer => {
+  console.log(`Saving Icons.json to ${answer}`);
+});
