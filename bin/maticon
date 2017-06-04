@@ -1,13 +1,16 @@
 #!/usr/bin/env node
-const program = require('commander');
-const package = require('../package.json');
-const MatIcon = require('../src/maticon.js');
+const program = require("commander");
+const packson = require("../package.json");
+const MatIcon = require("../src/maticon.js");
 
 program
-				.version(package.version)
-				.option('-i, --icon <name>', 'Add icon')
-				.parse(process.argv);
+  .version(packson.version)
+  .option("-i, --icon <name>", "Add icon")
+  .command("setup", "Set file path where json with icon paths are stored")
+  .parse(process.argv);
 
-const maticon = new MatIcon(program.icon);
+if (program.icon) {
+  const maticon = new MatIcon(program.icon);
 
-maticon.request();
+  maticon.request();
+}
