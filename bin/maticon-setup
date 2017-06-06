@@ -1,12 +1,42 @@
 #!/usr/bin/env node
+const PATH = require("path");
 const readline = require("readline");
+const fs = require("fs");
 console.log("setup...");
+
+const APP_DIR = PATH.resolve(__dirname).replace("/bin", "");
 
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
 
-rl.question("Where will you be storing the icons JSON file? (enter an absolute path): ", answer => {
-  console.log(`Saving Icons.json to ${answer}`);
-});
+const processAnswer = (answer = null) => {
+  console.log(answer);
+  var configPath = `${APP_DIR}/config/config.json`;
+  var config = require(configPath);
+
+  if (answer === "default") {
+    delete config.FILEPATH;
+    fs.writeFileSync(configPath, JSON.stringify(config), "utf8");
+    process.exit();
+  }
+
+  if (answer) {
+    var file = `${answer}/Icons.json`;
+    console.log(`Saving new Icons.json to ${answer}`);
+    fs.writeFileSync(file, JSON.stringify({}), "utf8");
+
+    console.log("Setting as FILEPATH in config.json...");
+
+    config.FILEPATH = file;
+    console.log(`Saving config.json with FILEPATH: ${file}`);
+    fs.writeFileSync(configPath, JSON.stringify(config), "utf8");
+    console.log("Done.");
+    process.exit();
+  }
+  console.log("No answer. Cant complete setup. exiting...");
+  process.exit();
+};
+
+rl.question("Where will you be storing the icons JSON file? (enter a path): ", processAnswer);

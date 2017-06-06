@@ -1,7 +1,1 @@
-{
-	"HOSTNAME": "storage.googleapis.com",
-	"PORT": "443",
-	"PATH": "/material-icons/external-assets/v4/icons/svg/ic",
-	"COLOR": "black",
-	"SIZE": "24"
-}
+{"HOSTNAME":"storage.googleapis.com","PORT":"443","PATH":"/material-icons/external-assets/v4/icons/svg/ic","COLOR":"black","SIZE":"24"}
