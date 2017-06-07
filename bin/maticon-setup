@@ -16,24 +16,64 @@ const processAnswer = (answer = null) => {
   var configPath = `${APP_DIR}/config/config.json`;
   var config = require(configPath);
 
-  if (answer === "default") {
+  const defaultSettings = () => {
     delete config.FILEPATH;
     fs.writeFileSync(configPath, JSON.stringify(config), "utf8");
     process.exit();
-  }
+  };
 
-  if (answer) {
-    var file = `${answer}/Icons.json`;
+  const customFile = answer => {
+    if (!fs.existsSync(`${answer}/Icons.json`)) {
+      var path = saveNewFile(answer);
+      setFILEPATH(path);
+    } else {
+      rl.question(
+        `A file named 'Icons.json' already exists in ${answer}. Do you want to replace it, or just make sure its set in your config?`,
+        a => {
+          switch (a) {
+            case "y":
+              console.log("Okay, doing it.");
+              var path = saveNewFile(answer);
+              setFILEPATH(path);
+              break;
+            case "n":
+              console.log("Okay, settting in config and exiting setup.");
+              var path = `${answer}/Icons.json`;
+              setFILEPATH(path);
+              process.exit();
+              break;
+            default:
+              console.log('Only accepting "y" or "n" to this prompt.');
+              process.exit();
+              break;
+          }
+        }
+      );
+    }
+  };
+  const saveNewFile = answer => {
     console.log(`Saving new Icons.json to ${answer}`);
-    fs.writeFileSync(file, JSON.stringify({}), "utf8");
+    var path = `${answer}/Icons.json`;
+    fs.writeFileSync(path, JSON.stringify({}), "utf8");
+    return path;
+  };
 
+  const setFILEPATH = filePath => {
     console.log("Setting as FILEPATH in config.json...");
-
-    config.FILEPATH = file;
-    console.log(`Saving config.json with FILEPATH: ${file}`);
+    config.FILEPATH = filePath;
+    console.log(`Saving config.json with FILEPATH: ${filePath}`);
     fs.writeFileSync(configPath, JSON.stringify(config), "utf8");
     console.log("Done.");
     process.exit();
+  };
+
+  // Removes any FILEPATH declared in the file and just uses assets/Icons.js in module
+  if (answer === "default") {
+    return defaultSettings();
+  }
+
+  if (answer) {
+    return customFile(answer);
   }
   console.log("No answer. Cant complete setup. exiting...");
   process.exit();
