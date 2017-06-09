@@ -2,7 +2,7 @@
 const PATH = require("path");
 const readline = require("readline");
 const fs = require("fs");
-console.log("setup...");
+console.log("Running Setup...");
 
 const APP_DIR = PATH.resolve(__dirname).replace("/bin", "");
 
@@ -17,6 +17,7 @@ const processAnswer = (answer = null) => {
   var config = require(configPath);
 
   const defaultSettings = () => {
+    console.log("Removing FILEPATH from config file, will use default assets/Icons.json file.");
     delete config.FILEPATH;
     fs.writeFileSync(configPath, JSON.stringify(config), "utf8");
     process.exit();
@@ -28,7 +29,7 @@ const processAnswer = (answer = null) => {
       setFILEPATH(path);
     } else {
       rl.question(
-        `A file named 'Icons.json' already exists in ${answer}. Do you want to replace it, or just make sure its set in your config?`,
+        `A file named 'Icons.json' already exists in ${answer}. Do you want to replace it? `,
         a => {
           switch (a) {
             case "y":
@@ -37,7 +38,7 @@ const processAnswer = (answer = null) => {
               setFILEPATH(path);
               break;
             case "n":
-              console.log("Okay, settting in config and exiting setup.");
+              console.log("Okay, just setting it explicitly in config and exiting setup then.");
               var path = `${answer}/Icons.json`;
               setFILEPATH(path);
               process.exit();
@@ -79,4 +80,7 @@ const processAnswer = (answer = null) => {
   process.exit();
 };
 
-rl.question("Where will you be storing the icons JSON file? (enter a path): ", processAnswer);
+rl.question(
+  "Where will you be storing the icons JSON file? (enter an absolute path): ",
+  processAnswer
+);
