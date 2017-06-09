@@ -18,7 +18,7 @@ Alternatively you could install globally with -g flag. (Not recommended).
 
 ### Usage:
 
-`maticon setup`
+#### `maticon setup`
 
 Interactive setup to enter absolute path to JSON file in your repo where paths should be stored.
 
@@ -36,7 +36,7 @@ Saving config.json with FILEPATH: /Users/mattharris/Workspace/participate-web/we
 Done.
 ```
 
-`maticon -i, --icon $ICON `
+#### `maticon -i, --icon $ICON `
 
 Browse to material.io, find icon name you want and use command entering name as string `$ICON` in above command. Examples:
 
