@@ -22,6 +22,20 @@ Alternatively you could install globally with -g flag. (Not recommended).
 
 Interactive setup to enter absolute path to JSON file in your repo where paths should be stored.
 
+Most likely, if you are already using this method of a component rendering paths stored in a JSON file - you already have a file with some stuff.  In this case, if you enter a path to a directory that already has a file called `Icons.json` maticon will ask if you'd like to clobber it.  Answering no ("n") will just set your existing file as the one to use. Example:
+
+```shell
+$ maticon setup
+Running Setup...
+Where will you be storing the icons JSON file? (enter an absolute path, or 'default' to store in module): /Users/mattharris/Workspace/participate-web/webpack/assets
+/Users/mattharris/Workspace/participate-web/webpack/assets
+A file named 'Icons.json' already exists in /Users/mattharris/Workspace/participate-web/webpack/assets. Do you want to replace it? n
+Okay, just setting it explicitly in config and exiting setup then.
+Setting as FILEPATH in config.json...
+Saving config.json with FILEPATH: /Users/mattharris/Workspace/participate-web/webpack/assets/Icons.json
+Done.
+```
+
 `maticon -i, --icon $ICON `
 
 Browse to material.io, find icon name you want and use command entering name as string `$ICON` in above command. Examples:
