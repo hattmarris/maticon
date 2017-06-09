@@ -1,6 +1,6 @@
 {
   "name": "maticon",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "CLI to get material icons from google storage apis and put the paths in an accessible JSON file.",
   "main": "index.js",
   "repository": "git@github.com:hattmarris/react-material-icons.git",
