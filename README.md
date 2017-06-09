@@ -4,9 +4,9 @@ CLI to get material icons from storage.googleapis.com and put paths in JSON file
 
 ### Installation & Setup:
 
-`npm install maticon` or `yarn add maticon`
+`npm install maticon --save-dev` or `yarn add maticon --dev`
 
-The bin file will be installed to `./node_modules/.bin`. So make sure this file is in your $PATH for command usage.  Put:
+Add as dev dependency. The bin file will be installed to `./node_modules/.bin`. So make sure this file is in your $PATH for command usage.  Put:
 
 `PATH=$PATH:./node_modules/.bin`
 
