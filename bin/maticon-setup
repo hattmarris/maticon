@@ -81,6 +81,6 @@ const processAnswer = (answer = null) => {
 };
 
 rl.question(
-  "Where will you be storing the icons JSON file? (enter an absolute path): ",
+  "Where will you be storing the icons JSON file? (enter an absolute path, or 'default' to store in module): ",
   processAnswer
 );
