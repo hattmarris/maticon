@@ -85,7 +85,7 @@ class MatIcon {
   }
 
   saveToFile() {
-    fs.writeFileSync(this.FILEPATH, JSON.stringify(this.ICONS), "utf-8");
+    fs.writeFileSync(this.FILEPATH, JSON.stringify(this.ICONS, null, 2), "utf-8");
   }
 
   prompt(text) {
